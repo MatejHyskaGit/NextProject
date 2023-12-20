@@ -1,95 +1,75 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  Grid,
+  Heading,
+  Text,
+} from "@chakra-ui/react";
+import type { NextPage } from "next";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
-export default function Home() {
+import ColormodeToggle from "@/colormodeToggle";
+import Add from "@/add";
+
+const Home: NextPage = () => {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+      fetch("api/getContacts")
+          .then((res) => res.json())
+          .then(({ data }) => setItems(data));
+  }, []);
+
+
+
+
+
+
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+      <Container maxW="4xl" p={4}>
+          <Grid templateColumns="repeat(3, 1fr)" gap={4} mb={4}>
+              <Heading>Home</Heading>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+              <Link href="components/add">
+                  <Button colorScheme="teal" variant="outline">
+                      Add Contact
+                  </Button>
+              </Link>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+              <Flex justifyContent="flex-end">
+                  <ColormodeToggle />
+              </Flex>
+              
+          </Grid>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+          <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+              {items &&
+                  items.map((item: any) => (
+                      <Box key={item.id} p={4} shadow="md" borderWidth="1px">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <Text fontSize="xl">{item.name}</Text>
+                          <Text fontSize="lg">{item.number}</Text>
+                          <Text fontSize="lg">{item.description}</Text>
+                          <Button colorScheme="teal" variant="outline">
+                              Call
+                          </Button>
+                      </Box>
+                  ))}
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
+              {!items.length && (
+                  <Box p={4} shadow="md" borderWidth="1px">
+                      <Text fontSize="xl">No contacts found</Text>
+                  </Box>
+              )}
+          </Grid>
+          <Add></Add>
+      </Container>
+  );
+};
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+export default Home;
