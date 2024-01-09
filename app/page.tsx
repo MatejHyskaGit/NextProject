@@ -17,7 +17,8 @@ export default function Home() {
     id: null,
     name: '',
     number: '',
-    createdAt: null
+    createdAt: null,
+    updatedAt: null
   };
 
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -33,6 +34,7 @@ export default function Home() {
     fetch('/api/contacts')
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         setContacts(data)
         setLoading(false);
         if (data.message) {
@@ -191,8 +193,8 @@ export default function Home() {
                 <div>
                   <Toolbar className="mb-4" left={leftToolbarTemplate}></Toolbar>
                   <DataTable ref={dt} value={contacts}
-                          dataKey="id"  paginator rows={5} rowsPerPageOptions={[5, 10, 25]}
-                          paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                          // dataKey="id"  paginator rows={5} rowsPerPageOptions={[5, 10, 25]}
+                          // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} devices">
                       <Column field="name" header="Name" sortable></Column>
                       <Column field="number" header="Number" sortable></Column>
@@ -207,7 +209,7 @@ export default function Home() {
                     <label htmlFor="name" className="font-bold">
                         Name
                     </label>
-                    <InputText id="name" value={contact.name} onChange={(e) => onInputChange(e, 'number')} required autoFocus className={classNames({ 'p-invalid': submitted && !contact.name })} />
+                    <InputText id="name" value={contact.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !contact.name })} />
                     {submitted && !contact.name && <small className="p-error">Name is required.</small>}
                 </div>
                 <div className="field">

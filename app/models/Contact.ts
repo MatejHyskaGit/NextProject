@@ -3,4 +3,5 @@ export default interface Contact {
     name: string;
     number: string;
     createdAt: Date | null;
+    updatedAt: Date | null;
 }
