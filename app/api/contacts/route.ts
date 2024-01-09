@@ -7,7 +7,8 @@ export async function GET(req: Request, res: Response) {
         id: true,
         name: true,
         createdAt: true,
-        number: true
+        number: true,
+        updatedAt: true
       },
     });
     return new Response(JSON.stringify(contacts), {

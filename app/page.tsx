@@ -136,7 +136,7 @@ export default function Home() {
       .then((response) => response.json())
       .then((createdContact) => {
         setContacts([...contacts, createdContact]);
-        setContact({ id: '', name: '', number: '', createdAt: null });
+        setContact({ id: '', name: '', number: '', createdAt: null, updatedAt: null });
         fetch('/api/contacts')
           .then((response) => response.json())
           .then((data) => {
